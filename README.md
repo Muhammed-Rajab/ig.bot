@@ -1,3 +1,3 @@
 # ig.bot
 
-_A node.js based instagram💖 bot🤖 made to make life of a content creater🗒️ easy🍀_
+_A node.js based Instagram💖 bot🤖 made to make life of a content creator🗒️ easy🍀_
