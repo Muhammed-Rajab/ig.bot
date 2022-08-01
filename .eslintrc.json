@@ -18,6 +18,13 @@
     "rules": {
         "linebreak-style": 0,
         "quotes": 0,
-        "no-console": 0
-    }
+        "no-console": 0,
+        "indent": 0,
+        "operator-linebreak": 0,
+    },
+    "settings": {
+        "import/resolver": {
+          "typescript": {}
+        }
+      }
 }

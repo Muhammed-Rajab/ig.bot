@@ -1,3 +1,7 @@
 node_modules/
 build/
 config.env
+cookies.json
+followed.json
+liked-photos.json
+unfollowed.json
