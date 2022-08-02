@@ -1,0 +1,1 @@
+export default { headless: false };

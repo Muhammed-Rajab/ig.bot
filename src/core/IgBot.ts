@@ -1,6 +1,6 @@
 // Necessary libraries
-const Instauto = require("instauto");
-const puppeteer = require("puppeteer");
+import Instauto from "instauto";
+import puppeteer from "puppeteer";
 
 // Interface of puppeteer configuration object
 interface PuppeteerConfig {
@@ -202,4 +202,4 @@ class IgBot {
     }
 }
 
-module.exports = IgBot;
+export { IgBot };
