@@ -31,5 +31,3 @@ const bot = new IgBot(PuppeteerConfig, {
 // }
 
 CommandLineUI.displayBanner();
-// console.log(await CommandLineUI.confirm("Do you want to quit now?"));
-console.log(await CommandLineUI.input("dfsdfsd", "Do you want to quit now?"));

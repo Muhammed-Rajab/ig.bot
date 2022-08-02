@@ -33,31 +33,50 @@ class CommandLine {
         console.clear();
     }
 
-    // Asks user to select either Y or n -> true on Y, false on n
+    // Asks user to select either Y or n -> true on Y/[Enter], false on n
     public static async confirm(
-        name: string,
         message: string,
+        options: object = {},
     ): Promise<boolean> {
+        const name = `${Math.floor(Math.random() * 1000000 * Date.now())}`;
         return (
             await inquirer.prompt({
                 name: name,
                 message: message,
                 type: "confirm",
+                ...options,
             })
         )[name];
     }
 
     // Takes text input from user
-    public static async input(
-        name: string,
+    public static async textInput(
         message: string,
         options: object = {},
     ): Promise<string> {
+        const name = `${Math.floor(Math.random() * 1000000 * Date.now())}`;
         return (
             await inquirer.prompt({
                 name: name,
                 message: message,
                 type: "input",
+                ...options,
+            })
+        )[name];
+    }
+
+    // Takes password from the user
+    public static async passwordInput(
+        message: string,
+        options: object = {},
+    ): Promise<string> {
+        const name = `${Math.floor(Math.random() * 1000000 * Date.now())}`;
+        return (
+            await inquirer.prompt({
+                name: name,
+                message: message,
+                type: "password",
+                mask: "🖕",
                 ...options,
             })
         )[name];
