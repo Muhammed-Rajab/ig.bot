@@ -7,6 +7,7 @@ import { logger } from "./core/utils.js";
 // Importin configurations
 import InstautoConfig from "./config/InstautoConfig.js";
 import PuppeteerConfig from "./config/PuppeteerConfig.js";
+import { CommandLineUI } from "./cli/CommandLine.js";
 
 // Loading Environment Variables
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -20,11 +21,15 @@ const bot = new IgBot(PuppeteerConfig, {
     password: process.env.INSTAGRAM_PASSWORD,
 });
 
-try {
-    await bot.initialize();
-    console.log(await bot.getFollowersList());
-} catch (err) {
-    console.error(err);
-} finally {
-    await bot.close();
-}
+// try {
+//     await bot.initialize();
+//     console.log(await bot.getFollowersList());
+// } catch (err) {
+//     console.error(err);
+// } finally {
+//     await bot.close();
+// }
+
+CommandLineUI.displayBanner();
+// console.log(await CommandLineUI.confirm("Do you want to quit now?"));
+console.log(await CommandLineUI.input("dfsdfsd", "Do you want to quit now?"));

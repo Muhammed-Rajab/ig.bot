@@ -4,11 +4,12 @@ import inquirer from "inquirer";
 import gradient from "gradient-string";
 
 class CommandLine {
+    // Displays banner
     static displayBanner(): void {
         const title = "ig.bot";
         const subtitle = `
                                                         
-        💖💖 The only instagram toolkit you need 💖💖   
+    💖💖 The only instagram toolkit you need 💖💖       
                                                         `;
 
         console.log(chalk.bgGreen.bold(subtitle));
@@ -26,8 +27,40 @@ class CommandLine {
         console.log();
         console.log();
     }
+
+    // Clears the terminal
     static clear(): void {
         console.clear();
+    }
+
+    // Asks user to select either Y or n -> true on Y, false on n
+    public static async confirm(
+        name: string,
+        message: string,
+    ): Promise<boolean> {
+        return (
+            await inquirer.prompt({
+                name: name,
+                message: message,
+                type: "confirm",
+            })
+        )[name];
+    }
+
+    // Takes text input from user
+    public static async input(
+        name: string,
+        message: string,
+        options: object = {},
+    ): Promise<string> {
+        return (
+            await inquirer.prompt({
+                name: name,
+                message: message,
+                type: "input",
+                ...options,
+            })
+        )[name];
     }
 }
 
