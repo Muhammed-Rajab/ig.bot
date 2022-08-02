@@ -1,8 +1,8 @@
 export default {
     cookiesPath: "./cookies.json",
 
-    username: process.env.INSTAGRAM_USERNAME,
-    password: process.env.INSTAGRAM_PASSWORD,
+    username: undefined, // Provide your username here
+    password: undefined, // Provide your password here
 
     maxFollowsPerHour: 60,
     maxFollowsPerDay: 150,

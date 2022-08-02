@@ -1,14 +1,15 @@
 // Necessary libraries
 import Instauto from "instauto";
 import puppeteer from "puppeteer";
+import { setDifference } from "../utils";
 
-// Interface of puppeteer configuration object
 interface PuppeteerConfig {
+    /* Interface of puppeteer configuration object */
     headless: boolean;
 }
 
-// Interface of Instauto configuration object
 interface InstautoConfig {
+    /* Interface of Instauto configuration object */
     cookiesPath: string;
     username: string;
     password: string;
@@ -31,8 +32,8 @@ interface InstautoConfig {
     logger?: object;
 }
 
-// Interface for user details
 interface UserDetails {
+    /* Interface for user details from instagram */
     username: string;
     biography?: string;
     biolinks?: string[];
@@ -47,17 +48,6 @@ interface UserDetails {
     is_verified: boolean;
 }
 
-// ! Function to find difference between two sets
-async function setDifference(
-    s1: Set<string>,
-    s2: Set<string>,
-): Promise<Set<string>> {
-    const newSet: Set<string> = new Set<string>();
-    s1.forEach((elem: string) => newSet.add(elem));
-    s2.forEach((elem: string) => newSet.delete(elem));
-    return newSet;
-}
-
 class IgBot {
     private _browser: any;
     private _instauto: any;
@@ -69,8 +59,8 @@ class IgBot {
         private _instautoConfig: InstautoConfig,
     ) {}
 
-    // Method to initialize the browser instance
     public async initialize() {
+        /* Method to initialize the browser instance */
         this._browser = await puppeteer.launch(this._puppeteerConfig);
 
         const instautoDb = await Instauto.JSONDB({
@@ -135,7 +125,10 @@ class IgBot {
             }),
         );
 
-        const res = await setDifference(userFollowingSet, userFollowersSet);
+        const res: Set<string> = await setDifference(
+            userFollowingSet,
+            userFollowersSet,
+        );
 
         return [...res];
     }
