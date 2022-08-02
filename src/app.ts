@@ -21,4 +21,10 @@ const bot = new IgBot(PuppeteerConfig, {
     password: process.env.INSTAGRAM_PASSWORD,
 });
 
-CommandLineUI.displayBanner();
+async function main() {
+    let appIsRunning = false;
+
+    CommandLineUI.displayBanner();
+
+    do {} while (appIsRunning);
+}

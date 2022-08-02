@@ -1,7 +1,7 @@
 // Necessary libraries
 import Instauto from "instauto";
 import puppeteer from "puppeteer";
-import { setDifference } from "../utils";
+import { setDifference } from "../utils.js";
 
 interface PuppeteerConfig {
     /* Interface of puppeteer configuration object */
