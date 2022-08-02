@@ -47,20 +47,14 @@ interface UserDetails {
     is_verified: boolean;
 }
 
-// Interface of data stored in IgBot when the bot starts
-interface BotStartConfig {
-    userId?: string;
-    timestamp: Date;
-}
-
 // ! Function to find difference between two sets
 async function setDifference(
     s1: Set<string>,
     s2: Set<string>,
 ): Promise<Set<string>> {
     const newSet: Set<string> = new Set<string>();
-    s1.forEach((elem) => newSet.add(elem));
-    s2.forEach((elem) => newSet.delete(elem));
+    s1.forEach((elem: string) => newSet.add(elem));
+    s2.forEach((elem: string) => newSet.delete(elem));
     return newSet;
 }
 
