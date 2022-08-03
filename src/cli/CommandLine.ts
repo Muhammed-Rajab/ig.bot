@@ -63,16 +63,55 @@ class CommandLine {
     }
 
     // Colorful logging
-    public static log(message: string): void {
+    public static log(
+        message: string,
+        start: string = "",
+        end: string = "",
+        sign: boolean = true,
+    ): void {
         console.log(message);
     }
 
-    public static warn(message: string): void {
-        console.log(chalk.yellow.bold(message));
+    public static warn(
+        message: string,
+        start: string = "",
+        end: string = "",
+        sign: boolean = true,
+    ): void {
+        console.log(
+            `${start}${sign ? "⚠️" : ""} ${chalk.yellow.bold(message)}${end}`,
+        );
     }
-    public static error(message: string): void {}
-    public static info(message: string): void {}
-    public static success(message: string): void {}
+    public static error(
+        message: string,
+        start: string = "",
+        end: string = "",
+        sign: boolean = true,
+    ): void {
+        console.log(
+            `${start}${sign ? "❌" : ""} ${chalk.red.bold(message)}${end}`,
+        );
+    }
+    public static info(
+        message: string,
+        start: string = "",
+        end: string = "",
+        sign: boolean = true,
+    ): void {
+        console.log(
+            `${start}${sign ? "ℹ️" : ""} ${chalk.blue.bold(message)}${end}`,
+        );
+    }
+    public static success(
+        message: string,
+        start: string = "",
+        end: string = "",
+        sign: boolean = true,
+    ): void {
+        console.log(
+            `${start}${sign ? "✅" : ""} ${chalk.green.bold(message)}${end}`,
+        );
+    }
 }
 
 interface UserInputAsListChoice {
