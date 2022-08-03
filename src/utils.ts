@@ -1,12 +1,3 @@
-const log = (fn: any, ...args: any[]) =>
-    console[fn](new Date().toISOString(), ...args);
-const logger = Object.fromEntries(
-    ["log", "info", "debug", "error", "trace", "warn"].map((fn) => [
-        fn,
-        (...args) => log(fn, ...args),
-    ]),
-);
-
 // Promisified version of setTimeout
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -21,4 +12,4 @@ async function setDifference(
     return newSet;
 }
 
-export { sleep, logger, setDifference };
+export { sleep, setDifference };

@@ -67,6 +67,7 @@ class IgBot {
             followedDbPath: "./followed.json",
             unfollowedDbPath: "./unfollowed.json",
             likedPhotosDbPath: "./liked-photos.json",
+            logger: this._instautoConfig.logger || console,
         });
 
         this._instauto = await Instauto(

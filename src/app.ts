@@ -38,6 +38,9 @@ async function main(): Promise<void> {
             "Do you want to continue to Main Menu📃?",
         );
 
+        // Clear the screen
+        CommandLineUI.clear();
+
         // if user exited the app, then display the end screen
         if (!appIsRunning) displayEndScreen();
     }

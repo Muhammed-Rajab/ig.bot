@@ -1,5 +1,4 @@
 // Importing modules and libraries
-import { logger } from "../utils.js";
 import { IgBot } from "../core/IgBot.js";
 import { createSpinner } from "nanospinner";
 import { CommandLineUI } from "../cli/CommandLine.js";
@@ -7,6 +6,26 @@ import { CommandLineUI } from "../cli/CommandLine.js";
 // Importin configurations
 import InstautoConfig from "../config/InstautoConfig.js";
 import PuppeteerConfig from "../config/PuppeteerConfig.js";
+
+// Configuring the logger
+const logger = {
+    allowLogging: false,
+    getLogger() {
+        const methods = ["log", "info", "debug", "error", "trace", "warn"];
+
+        const log = (fn: any, ...args: any[]) =>
+            console[fn](new Date().toISOString(), ...args);
+
+        return Object.fromEntries(
+            methods.map((fn) => [
+                fn,
+                (...args) => {
+                    if (this.allowLogging) log(fn, ...args);
+                },
+            ]),
+        );
+    },
+};
 
 export default async function (
     USERNAME: string,
@@ -35,7 +54,7 @@ export default async function (
     // Bot instance
     const bot = new IgBot(PuppeteerConfig, {
         ...InstautoConfig,
-        logger,
+        logger: logger.getLogger(),
         username: USERNAME,
         password: PASSWORD,
     });
