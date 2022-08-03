@@ -63,18 +63,15 @@ class CommandLine {
     }
 }
 
-interface GenerateListBasedMenuChoice {
-    /* Interface for choices int the List based menu*/
+interface UserInputAsListChoice {
     name: string;
-    callback: (option: string) => any;
+    out: any;
 }
-
-interface GenerateListBasedMenuConfig {
+interface UserInputAsListOptions {
     /* Interface for configuration of GenerateListBasedMenu */
     title: string;
-    option_name: string;
-    choices: GenerateListBasedMenuChoice[];
-    defaultIndex: number;
+    question?: string;
+    choices: UserInputAsListChoice[];
 }
 
 class CommandLineUI extends CommandLine {
@@ -116,48 +113,35 @@ class CommandLineUI extends CommandLine {
     }
 
     private static async _chooseFromList(
-        name: string,
         question: string,
         choices: string[],
-        defaultIndex: number,
     ): Promise<string | undefined> {
         /* Asks for user to select an option from list */
+        const name = `${Math.floor(Math.random() * 1000000 * Date.now())}`;
         return (
             await inquirer.prompt({
                 name: name,
                 type: "list",
                 message: question,
                 choices: choices,
-                default() {
-                    return choices[defaultIndex];
-                },
-                // prefix: "➡️ ",
             })
         )[name];
     }
 
-    public static async generateListBasedMenu(options) {
+    public static async getUserInputFromList(
+        options: UserInputAsListOptions,
+    ): Promise<any> {
         /* Generates a list-like menu from which user can choose options */
 
-        const { title, option_name, choices, defaultIndex } = options;
+        const { title, question, choices } = options;
 
-        let optionSelected: string;
+        const optionSelected: string = await this._chooseFromList(
+            question ? question : title,
+            choices.map((choice) => choice.name),
+        );
 
-        do {
-            optionSelected = await this._chooseFromList(
-                option_name,
-                title,
-                choices.map((choice) => choice.name),
-                defaultIndex,
-            );
-        } while (optionSelected === undefined);
-
-        for (let i = 0; i < choices.length; i++) {
-            if (choices[i].name === optionSelected) {
-                await choices[i].callback(optionSelected);
-            }
-        }
+        return choices.find((choice) => choice.name === optionSelected).out;
     }
 }
 
-export { GenerateListBasedMenuConfig, CommandLineUI };
+export { UserInputAsListOptions, CommandLineUI };
