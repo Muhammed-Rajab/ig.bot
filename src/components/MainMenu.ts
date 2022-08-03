@@ -1,11 +1,15 @@
+import bootupBot from "../logic/bootupBot.js";
+import aboutDeveloper from "../logic/aboutDeveloper.js";
+import setupUserCredentials from "../logic/setupUserCredentials.js";
+import validateUserCredentials from "../logic/validateUserCredentials.js";
 import { CommandLineUI, UserInputAsListOptions } from "../cli/CommandLine.js";
 
 // Main menu configuration
 enum mainMenuListChoices {
-    SETUP_CREDENTIALS,
+    SETUP_USER_CREDENTIALS,
     BOOTUP_BOT,
     ABOUT_DEV,
-    VALIDATE_CREDENTIALS,
+    VALIDATE_USER_CREDENTIALS,
 }
 
 const mainMenuListOptions: UserInputAsListOptions = {
@@ -13,11 +17,11 @@ const mainMenuListOptions: UserInputAsListOptions = {
     choices: [
         {
             name: "Setup Credentials 🗝️",
-            out: mainMenuListChoices.SETUP_CREDENTIALS,
+            out: mainMenuListChoices.SETUP_USER_CREDENTIALS,
         },
         {
-            name: "Validate Credentials ✅",
-            out: mainMenuListChoices.VALIDATE_CREDENTIALS,
+            name: "Validate User Credentials ✅",
+            out: mainMenuListChoices.VALIDATE_USER_CREDENTIALS,
         },
         {
             name: "Boot Up ig.bot🚀",
@@ -37,17 +41,17 @@ async function displayMainMenuList(): Promise<void> {
 
     // Calling other methods with respect to user input
     switch (mainMenuInput) {
-        case mainMenuListChoices.SETUP_CREDENTIALS:
-            console.log("Setup Credentials");
+        case mainMenuListChoices.SETUP_USER_CREDENTIALS:
+            await setupUserCredentials();
             break;
-        case mainMenuListChoices.VALIDATE_CREDENTIALS:
-            console.log("Validate the credentials");
+        case mainMenuListChoices.VALIDATE_USER_CREDENTIALS:
+            await validateUserCredentials();
             break;
         case mainMenuListChoices.BOOTUP_BOT:
-            console.log("Boot up the bot");
+            await bootupBot();
             break;
         case mainMenuListChoices.ABOUT_DEV:
-            console.log("About the Developer");
+            await aboutDeveloper();
             break;
     }
 }
