@@ -1,4 +1,5 @@
 // Importing modules and libraries
+import chalk from "chalk";
 import { IgBot } from "../core/IgBot.js";
 import { createSpinner } from "nanospinner";
 import { CommandLineUI } from "../cli/CommandLine.js";
@@ -60,11 +61,15 @@ export default async function (
     });
 
     // Initialize the bot and show the spinner
-    const spinner = createSpinner("Initializing ig.bot🚀").start();
+    console.log();
+    const spinner = createSpinner(
+        `${chalk.blue.bold("Initializing ig.bot🚀")}`,
+    ).start();
     await bot.initialize();
     spinner.success({
-        text: "ig.bot initialized successfully🚀",
+        text: `${chalk.green.bold("ig.bot initialized successfully🚀")}`,
     });
+    console.log();
 
     // Run a loop to create an interface between the bot and the user
     let botIsRunning: boolean = false;

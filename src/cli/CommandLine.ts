@@ -100,7 +100,7 @@ class CommandLineUI extends CommandLine {
     💖💖 The only instagram toolkit you need 💖💖       
                                                         `;
 
-        console.log(chalk.bgGreen.bold(subtitle));
+        console.log(chalk.bgGreen.bold.italic(subtitle));
         console.log(
             gradient.atlas(
                 figlet.textSync(title, {
