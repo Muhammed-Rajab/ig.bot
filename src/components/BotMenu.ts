@@ -3,35 +3,52 @@ import { CommandLineUI, UserInputAsListOptions } from "../cli/CommandLine.js";
 
 // Bot menu configuration
 enum botMenuListChoices {
-    SETUP_USER_CREDENTIALS,
-    BOOTUP_BOT,
-    ABOUT_DEV,
-    CLOSE_THE_APPLICATION,
-    VALIDATE_USER_CREDENTIALS,
+    UNFOLLOW_USER,
+    UNFOLLOW_USERS_FROM_FILE,
+    UNFOLLOW_USERS_WHO_DONT_FOLLOW_BACK,
+
+    FOLLOW_USER,
+    FOLLOW_USERS_FROM_FILE,
+
+    GET_FOLLOWING_LIST,
+    GET_FOLLOWERS_LIST,
+    GET_LIST_OF_USERS_WHO_DONT_FOLLOW_BACK,
 }
 
 const botMenuListOptions: UserInputAsListOptions = {
     title: "Bot Menu",
     choices: [
         {
-            name: "Bot menu 1",
-            out: botMenuListChoices.SETUP_USER_CREDENTIALS,
+            name: "Follow A User",
+            out: botMenuListChoices.FOLLOW_USER,
         },
         {
-            name: "Bot menu 2",
-            out: botMenuListChoices.VALIDATE_USER_CREDENTIALS,
+            name: "Follow Users From A File",
+            out: botMenuListChoices.FOLLOW_USERS_FROM_FILE,
         },
         {
-            name: "Bot menu 3",
-            out: botMenuListChoices.BOOTUP_BOT,
+            name: "Unfollow A User",
+            out: botMenuListChoices.UNFOLLOW_USER,
         },
         {
-            name: "Bot menu 4",
-            out: botMenuListChoices.ABOUT_DEV,
+            name: "Unfollow Users From A File",
+            out: botMenuListChoices.UNFOLLOW_USERS_FROM_FILE,
         },
         {
-            name: "Bot menu 5",
-            out: botMenuListChoices.CLOSE_THE_APPLICATION,
+            name: "Unfollow Users Who Don't Follow Back",
+            out: botMenuListChoices.UNFOLLOW_USERS_WHO_DONT_FOLLOW_BACK,
+        },
+        {
+            name: "Get the list of following users",
+            out: botMenuListChoices.GET_FOLLOWING_LIST,
+        },
+        {
+            name: "Get the list of followers",
+            out: botMenuListChoices.GET_FOLLOWERS_LIST,
+        },
+        {
+            name: "Get the list of users who don't follow back",
+            out: botMenuListChoices.GET_LIST_OF_USERS_WHO_DONT_FOLLOW_BACK,
         },
     ],
 };
