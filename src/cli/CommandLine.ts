@@ -61,6 +61,18 @@ class CommandLine {
             })
         )[name];
     }
+
+    // Colorful logging
+    public static log(message: string): void {
+        console.log(message);
+    }
+
+    public static warn(message: string): void {
+        console.log(chalk.yellow.bold(message));
+    }
+    public static error(message: string): void {}
+    public static info(message: string): void {}
+    public static success(message: string): void {}
 }
 
 interface UserInputAsListChoice {

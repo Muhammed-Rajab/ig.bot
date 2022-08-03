@@ -26,6 +26,7 @@
         "gradient-string": "^2.0.1",
         "inquirer": "^9.0.2",
         "instauto": "^9.1.10",
+        "nanospinner": "^1.1.0",
         "puppeteer": "^15.5.0"
     }
 }

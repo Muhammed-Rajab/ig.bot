@@ -20,6 +20,7 @@ enum mainMenuListChoices {
     SETUP_USER_CREDENTIALS,
     BOOTUP_BOT,
     ABOUT_DEV,
+    CLOSE_THE_APPLICATION,
     VALIDATE_USER_CREDENTIALS,
 }
 
@@ -39,13 +40,17 @@ const mainMenuListOptions: UserInputAsListOptions = {
             out: mainMenuListChoices.BOOTUP_BOT,
         },
         {
-            name: "About The Developer",
+            name: "About The Developer 🤓",
             out: mainMenuListChoices.ABOUT_DEV,
+        },
+        {
+            name: "Close The Application ❌",
+            out: mainMenuListChoices.CLOSE_THE_APPLICATION,
         },
     ],
 };
 
-async function displayMainMenuList(): Promise<void> {
+async function displayMainMenuList(): Promise<boolean> {
     // Display main menu and wait fort input
     const mainMenuInput: mainMenuListChoices =
         await CommandLineUI.getUserInputFromList(mainMenuListOptions);
@@ -64,6 +69,11 @@ async function displayMainMenuList(): Promise<void> {
         case mainMenuListChoices.ABOUT_DEV:
             await aboutDeveloper();
             break;
+        case mainMenuListChoices.CLOSE_THE_APPLICATION:
+            return false;
+            break;
     }
+
+    return true;
 }
 export { displayMainMenuList };
