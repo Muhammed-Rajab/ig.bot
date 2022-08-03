@@ -1,8 +1,19 @@
+import path from "path";
+import dotenv from "dotenv";
+import { fileURLToPath } from "url";
 import bootupBot from "../logic/bootupBot.js";
 import aboutDeveloper from "../logic/aboutDeveloper.js";
 import setupUserCredentials from "../logic/setupUserCredentials.js";
 import validateUserCredentials from "../logic/validateUserCredentials.js";
 import { CommandLineUI, UserInputAsListOptions } from "../cli/CommandLine.js";
+
+// Loading Environment Variables
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: `${__dirname}/../config.env` });
+
+// User credentials from Environment Variables
+const USERNAME: string | undefined = process.env.INSTAGRAM_USERNAME;
+const PASSWORD: string | undefined = process.env.INSTAGRAM_PASSWORD;
 
 // Main menu configuration
 enum mainMenuListChoices {
@@ -48,7 +59,7 @@ async function displayMainMenuList(): Promise<void> {
             await validateUserCredentials();
             break;
         case mainMenuListChoices.BOOTUP_BOT:
-            await bootupBot();
+            await bootupBot(USERNAME, PASSWORD);
             break;
         case mainMenuListChoices.ABOUT_DEV:
             await aboutDeveloper();

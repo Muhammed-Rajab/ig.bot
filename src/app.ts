@@ -1,14 +1,8 @@
 import path from "path";
 import dotenv from "dotenv";
-import { logger } from "./utils.js";
 import { fileURLToPath } from "url";
-import { IgBot } from "./core/IgBot.js";
 import { CommandLineUI } from "./cli/CommandLine.js";
 import { displayMainMenuList } from "./components/MainMenu.js";
-
-// Importin configurations
-import InstautoConfig from "./config/InstautoConfig.js";
-import PuppeteerConfig from "./config/PuppeteerConfig.js";
 
 // Loading Environment Variables
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -17,14 +11,6 @@ dotenv.config({ path: `${__dirname}/../config.env` });
 // User credentials from Environment Variables
 const USERNAME: string | undefined = process.env.INSTAGRAM_USERNAME;
 const PASSWORD: string | undefined = process.env.INSTAGRAM_PASSWORD;
-
-// Bot instance
-const bot = new IgBot(PuppeteerConfig, {
-    ...InstautoConfig,
-    logger,
-    username: USERNAME,
-    password: PASSWORD,
-});
 
 async function main(): Promise<void> {
     let appIsRunning: boolean = true;
