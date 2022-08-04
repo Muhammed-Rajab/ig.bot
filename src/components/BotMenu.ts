@@ -75,7 +75,7 @@ async function followUser(bot: IgBot) {
         );
     } catch (err) {
         throw new Error(
-            `Invalid username: Provide a username of existing user.`,
+            `Invalid username: Provide the username of an existing user.`,
         );
     }
 }
@@ -103,13 +103,13 @@ async function unfollowUser(bot: IgBot) {
         await bot.unfollowUser(userToUnFollow);
 
         CommandLineUI.success(
-            `Successfully followed @${userToUnFollow}`,
+            `Successfully unfollowed @${userToUnFollow}`,
             "\n",
             "\n",
         );
     } catch (e) {
         throw new Error(
-            `Invalid username: Provide a username of existing user.`,
+            `Invalid username: Provide the username of an existing user.`,
         );
     }
 }

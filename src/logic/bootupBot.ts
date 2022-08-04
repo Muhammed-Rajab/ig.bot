@@ -118,9 +118,18 @@ export default async function (
 
             // Display the bot menu
             await displayBotMenu(bot);
+
+            // Ask if the user want to continue using the app
+            botIsRunning = await CommandLineUI.confirm(
+                "Do you want to continue to Bot Menu📃?",
+            );
+
+            // Clear the screen
+            CommandLineUI.clear();
         }
     } catch (e) {
-        CommandLineUI.error("Something went wrong?!?");
-        botIsRunning || (await bot.close());
+        CommandLineUI.error(`Error occured: ${e.message}`, `\n`, "\n");
+    } finally {
+        await bot.close();
     }
 }
