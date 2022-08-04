@@ -175,6 +175,10 @@ class IgBot {
         return await this._instauto.followUser(username);
     }
 
+    public async unfollowUser(username: string) {
+        return await this._instauto.unfollowUser(username);
+    }
+
     // Puppeteer Methods
     public async close(): Promise<void> {
         this.throwErrorIfDidNotInitialize();

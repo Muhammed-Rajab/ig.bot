@@ -53,7 +53,89 @@ const botMenuListOptions: UserInputAsListOptions = {
     ],
 };
 
+// Bot options
+async function followUser(bot: IgBot) {
+    try {
+        CommandLineUI.log("");
+
+        let userToFollow: string;
+
+        do {
+            userToFollow = (
+                await CommandLineUI.textInput("Enter the username to follow: ")
+            ).trim();
+        } while (userToFollow === undefined || userToFollow === "");
+
+        CommandLineUI.info(`Attempting to follow @${userToFollow}`, "\n", "\n");
+        await bot.followUser(userToFollow);
+        CommandLineUI.success(
+            `Successfully followed @${userToFollow}`,
+            "\n",
+            "\n",
+        );
+    } catch (err) {
+        throw new Error(
+            `Invalid username: Provide a username of existing user.`,
+        );
+    }
+}
+
+async function unfollowUser(bot: IgBot) {
+    try {
+        CommandLineUI.log("");
+
+        let userToUnFollow: string;
+
+        do {
+            userToUnFollow = (
+                await CommandLineUI.textInput(
+                    "Enter the username to unfollow: ",
+                )
+            ).trim();
+        } while (userToUnFollow === undefined || userToUnFollow === "");
+
+        CommandLineUI.info(
+            `Attempting to unfollow @${userToUnFollow}`,
+            "\n",
+            "\n",
+        );
+
+        await bot.unfollowUser(userToUnFollow);
+
+        CommandLineUI.success(
+            `Successfully followed @${userToUnFollow}`,
+            "\n",
+            "\n",
+        );
+    } catch (e) {
+        throw new Error(
+            `Invalid username: Provide a username of existing user.`,
+        );
+    }
+}
+
 export async function displayBotMenu(bot: IgBot): Promise<void> {
     const botMenuInput: botMenuListChoices =
         await CommandLineUI.getUserInputFromList(botMenuListOptions);
+
+    switch (botMenuInput) {
+        case botMenuListChoices.FOLLOW_USER:
+            await followUser(bot);
+            break;
+        case botMenuListChoices.FOLLOW_USERS_FROM_FILE:
+            break;
+        case botMenuListChoices.UNFOLLOW_USER:
+            await unfollowUser(bot);
+            break;
+        case botMenuListChoices.UNFOLLOW_USERS_FROM_FILE:
+            break;
+        case botMenuListChoices.UNFOLLOW_USERS_WHO_DONT_FOLLOW_BACK:
+            break;
+        case botMenuListChoices.GET_FOLLOWING_LIST:
+            break;
+        case botMenuListChoices.GET_FOLLOWERS_LIST:
+            break;
+        case botMenuListChoices.GET_LIST_OF_USERS_WHO_DONT_FOLLOW_BACK:
+            break;
+    }
 }

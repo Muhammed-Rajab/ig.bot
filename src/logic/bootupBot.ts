@@ -60,8 +60,11 @@ export default async function (
             false,
         );
     }
+
     if (!(await CommandLineUI.confirm(`Do you want to bootup the ig.bot🚀?`)))
         return;
+
+    let botIsRunning: boolean = true;
 
     // Bot instance
     const bot = new IgBot(PuppeteerConfig, {
@@ -79,7 +82,7 @@ export default async function (
     const spinner = createSpinner(
         `${chalk.blue.bold("Initializing ig.bot🚀")}`,
     ).start();
-    // await bot.initialize();
+    await bot.initialize();
     spinner.success({
         text: `${chalk.green.bold("ig.bot initialized successfully🚀")}`,
     });
@@ -89,27 +92,35 @@ export default async function (
     logger.allowLogging = true;
 
     // Run a loop to create an interface between the bot and the user
-    let botIsRunning: boolean = true;
+    let askWhetherTheLoginWasSuccessful: boolean = true;
 
-    while (botIsRunning) {
-        // Ask the user if the login was successful if the bot is not running headless
-        if (!PuppeteerConfig.headless) {
-            if (!(await CommandLineUI.confirm(`Was the login successful?📃`))) {
-                botIsRunning = false;
-                CommandLineUI.error("Exiting the ig.bot🚀", "\n", "\n");
-                break;
-            } else {
-                CommandLineUI.success(
-                    "Logged into Instagram Successfully🎊",
-                    "\n",
-                    "\n",
-                );
+    try {
+        while (botIsRunning) {
+            // Ask the user if the login was successful if the bot is not running headless
+            if (!PuppeteerConfig.headless && askWhetherTheLoginWasSuccessful) {
+                if (
+                    !(await CommandLineUI.confirm(
+                        `Was the login successful?📃`,
+                    ))
+                ) {
+                    botIsRunning = false;
+                    CommandLineUI.error("Exiting the ig.bot🚀", "\n", "\n");
+                    break;
+                } else {
+                    CommandLineUI.success(
+                        "Logged into Instagram Successfully🎊",
+                        "\n",
+                        "\n",
+                    );
+                }
+                askWhetherTheLoginWasSuccessful = false;
             }
+
+            // Display the bot menu
+            await displayBotMenu(bot);
         }
-
-        // Display the bot menu
-        await displayBotMenu(bot);
+    } catch (e) {
+        CommandLineUI.error("Something went wrong?!?");
+        botIsRunning || (await bot.close());
     }
-
-    // botIsRunning || (await bot.close());
 }
