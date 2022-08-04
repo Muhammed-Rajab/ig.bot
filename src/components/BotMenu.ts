@@ -1,5 +1,7 @@
+import chalk from "chalk";
 import { IgBot } from "../core/IgBot.js";
 import { CommandLineUI, UserInputAsListOptions } from "../cli/CommandLine.js";
+import { sign } from "crypto";
 
 // Bot menu configuration
 enum botMenuListChoices {
@@ -121,7 +123,59 @@ async function unfollowUser(bot: IgBot, loggingEnabled: boolean) {
 async function unfollowUsersWhoDontFollowBack(
     bot: IgBot,
     loggingEnabled: boolean,
-) {}
+) {
+    // Ask whether the user want to unfollow users who don't follow back as it potentially takes a long time and can get the user banned
+    CommandLineUI.warn(
+        ` This action can take a long time and can get the user banned. \nIf your ${chalk.red(
+            "followers:following",
+        )} ratio is high, you shouldn't use this action.`,
+        "\n",
+        "\n",
+    );
+    const consent = await CommandLineUI.confirm("Do you want to continue?");
+    if (!consent) {
+        CommandLineUI.info("Aborting action.");
+        return;
+    }
+
+    // Display bot status and unfollow the users who don't follow back
+    if (loggingEnabled) CommandLineUI.displayLoggingStartMessage();
+    CommandLineUI.info(
+        `Attempting to unfollow users who don't follow back`,
+        "\n",
+        "\n",
+    );
+
+    // Gets the list of users who don't follow back
+    const usersWhoDontFollowBackList = await bot.getUsersWhoDoNotFollowBack();
+
+    // Ask the user whether they want to print the list of users who don't follow back
+    CommandLineUI.log("");
+    if (
+        await CommandLineUI.confirm(
+            "Do you want to display the list of users who don't follow you back?",
+        )
+    ) {
+        CommandLineUI.info(
+            `Here's the list of users who don't follow you back ⤵️`,
+            "\n",
+            "\n",
+        );
+        CommandLineUI.error(
+            usersWhoDontFollowBackList.join("  "),
+            "",
+            "\n",
+            false,
+        );
+    }
+
+    CommandLineUI.success(
+        `Successfully unfollowed users who don't follow back`,
+        "\n",
+        "\n",
+    );
+    if (loggingEnabled) CommandLineUI.displayLoggingEndMessage();
+}
 
 export async function displayBotMenu(
     bot: IgBot,

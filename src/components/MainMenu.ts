@@ -9,7 +9,7 @@ import { CommandLineUI, UserInputAsListOptions } from "../cli/CommandLine.js";
 
 // Loading Environment Variables
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: `${__dirname}/../config.env` });
+dotenv.config({ path: `${__dirname}/../../config.env` });
 
 // User credentials from Environment Variables
 const USERNAME: string | undefined = process.env.INSTAGRAM_USERNAME;

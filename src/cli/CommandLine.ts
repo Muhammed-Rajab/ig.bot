@@ -71,7 +71,6 @@ class CommandLine {
     ): void {
         console.log(message);
     }
-
     public static warn(
         message: string,
         start: string = "",
