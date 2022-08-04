@@ -24,18 +24,18 @@ const botMenuListOptions: UserInputAsListOptions = {
             name: "Follow A User",
             out: botMenuListChoices.FOLLOW_USER,
         },
-        {
-            name: "Follow Users From A File",
-            out: botMenuListChoices.FOLLOW_USERS_FROM_FILE,
-        },
+        // {
+        //     name: "Follow Users From A File",
+        //     out: botMenuListChoices.FOLLOW_USERS_FROM_FILE,
+        // },
         {
             name: "Unfollow A User",
             out: botMenuListChoices.UNFOLLOW_USER,
         },
-        {
-            name: "Unfollow Users From A File",
-            out: botMenuListChoices.UNFOLLOW_USERS_FROM_FILE,
-        },
+        // {
+        //     name: "Unfollow Users From A File",
+        //     out: botMenuListChoices.UNFOLLOW_USERS_FROM_FILE,
+        // },
         {
             name: "Unfollow Users Who Don't Follow Back",
             out: botMenuListChoices.UNFOLLOW_USERS_WHO_DONT_FOLLOW_BACK,
@@ -48,10 +48,10 @@ const botMenuListOptions: UserInputAsListOptions = {
             name: "Get the list of followers",
             out: botMenuListChoices.GET_FOLLOWERS_LIST,
         },
-        {
-            name: "Get the list of users who don't follow back",
-            out: botMenuListChoices.GET_LIST_OF_USERS_WHO_DONT_FOLLOW_BACK,
-        },
+        // {
+        //     name: "Get the list of users who don't follow back",
+        //     out: botMenuListChoices.GET_LIST_OF_USERS_WHO_DONT_FOLLOW_BACK,
+        // },
     ],
 };
 
