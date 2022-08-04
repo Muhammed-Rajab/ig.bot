@@ -13,19 +13,38 @@ import { displayBotMenu } from "../components/BotMenu.js";
 const logger = {
     allowLogging: true,
     getLogger() {
-        const methods = ["log", "info", "debug", "error", "trace", "warn"];
-
-        const log = (fn: any, ...args: any[]) =>
-            console[fn](new Date().toISOString(), ...args);
-
-        return Object.fromEntries(
-            methods.map((fn) => [
-                fn,
-                (...args) => {
-                    if (this.allowLogging) log(fn, ...args);
-                },
-            ]),
-        );
+        return {
+            log: (...args: any[]) =>
+                this.allowLogging &&
+                CommandLineUI.success(
+                    `${new Date().toISOString()} ${args.join(" ")}`,
+                ),
+            info: (...args: any[]) =>
+                this.allowLogging &&
+                CommandLineUI.info(
+                    `${new Date().toISOString()} ${args.join(" ")}`,
+                ),
+            error: (...args: any[]) =>
+                this.allowLogging &&
+                CommandLineUI.error(
+                    `${new Date().toISOString()} ${args.join(" ")}`,
+                ),
+            trace: (...args: any[]) =>
+                this.allowLogging &&
+                CommandLineUI.log(
+                    `${new Date().toISOString()} ${args.join(" ")}`,
+                ),
+            warn: (...args: any[]) =>
+                this.allowLogging &&
+                CommandLineUI.warn(
+                    `${new Date().toISOString()}  ${args.join(" ")}`,
+                ),
+            debug: (...args: any[]) =>
+                this.allowLogging &&
+                CommandLineUI.error(
+                    `${new Date().toISOString()} ${args.join(" ")}`,
+                ),
+        };
     },
 };
 

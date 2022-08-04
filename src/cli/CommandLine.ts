@@ -99,7 +99,7 @@ class CommandLine {
         sign: boolean = true,
     ): void {
         console.log(
-            `${start}${sign ? "🔵" : ""} ${chalk.blue.bold(message)}${end}`,
+            `${start}${sign ? "🔹" : ""} ${chalk.blue.bold(message)}${end}`,
         );
     }
     public static success(
