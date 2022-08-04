@@ -125,7 +125,8 @@ export default async function (
                     "Do you want to continue to Bot Menu📃?",
                 );
             } catch (e) {
-                CommandLineUI.error("Something went wrong🚫", "\n", "\n");
+                // Print out the error message
+                CommandLineUI.error(e.message, "\n", "\n");
 
                 // Ask whether the user wants to continue using the bot menu
                 botIsRunning = await CommandLineUI.confirm(
