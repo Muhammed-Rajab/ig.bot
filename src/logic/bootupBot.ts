@@ -116,16 +116,25 @@ export default async function (
                 askWhetherTheLoginWasSuccessful = false;
             }
 
-            // Display the bot menu
-            await displayBotMenu(bot);
+            try {
+                // Display the bot menu
+                await displayBotMenu(bot);
 
-            // Ask if the user want to continue using the app
-            botIsRunning = await CommandLineUI.confirm(
-                "Do you want to continue to Bot Menu📃?",
-            );
+                // Ask if the user want to continue using the app
+                botIsRunning = await CommandLineUI.confirm(
+                    "Do you want to continue to Bot Menu📃?",
+                );
+            } catch (e) {
+                CommandLineUI.error("Something went wrong🚫", "\n", "\n");
 
-            // Clear the screen
-            CommandLineUI.clear();
+                // Ask whether the user wants to continue using the bot menu
+                botIsRunning = await CommandLineUI.confirm(
+                    "Do you want to continue to Bot Menu📃?",
+                );
+            } finally {
+                // Clear the screen
+                CommandLineUI.clear();
+            }
         }
     } catch (e) {
         CommandLineUI.error(`Error occured: ${e.message}`, `\n`, "\n");
