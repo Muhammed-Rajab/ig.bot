@@ -54,7 +54,7 @@ const botMenuListOptions: UserInputAsListOptions = {
 };
 
 // Bot options
-async function followUser(bot: IgBot) {
+async function followUser(bot: IgBot, loggingEnabled: boolean) {
     try {
         CommandLineUI.log("");
 
@@ -66,6 +66,8 @@ async function followUser(bot: IgBot) {
             ).trim();
         } while (userToFollow === undefined || userToFollow === "");
 
+        // Display bot status and follow the user
+        if (loggingEnabled) CommandLineUI.displayLoggingStartMessage();
         CommandLineUI.info(`Attempting to follow @${userToFollow}`, "\n", "\n");
         await bot.followUser(userToFollow);
         CommandLineUI.success(
@@ -73,6 +75,7 @@ async function followUser(bot: IgBot) {
             "\n",
             "\n",
         );
+        if (loggingEnabled) CommandLineUI.displayLoggingEndMessage();
     } catch (err) {
         throw new Error(
             `Invalid username: Provide the username of an existing user.`,
@@ -80,7 +83,7 @@ async function followUser(bot: IgBot) {
     }
 }
 
-async function unfollowUser(bot: IgBot) {
+async function unfollowUser(bot: IgBot, loggingEnabled: boolean) {
     try {
         CommandLineUI.log("");
 
@@ -94,19 +97,20 @@ async function unfollowUser(bot: IgBot) {
             ).trim();
         } while (userToUnFollow === undefined || userToUnFollow === "");
 
+        // Display bot status and unfollow the user
+        if (loggingEnabled) CommandLineUI.displayLoggingStartMessage();
         CommandLineUI.info(
             `Attempting to unfollow @${userToUnFollow}`,
             "\n",
             "\n",
         );
-
         await bot.unfollowUser(userToUnFollow);
-
         CommandLineUI.success(
             `Successfully unfollowed @${userToUnFollow}`,
             "\n",
             "\n",
         );
+        if (loggingEnabled) CommandLineUI.displayLoggingEndMessage();
     } catch (e) {
         throw new Error(
             `Invalid username: Provide the username of an existing user.`,
@@ -114,22 +118,31 @@ async function unfollowUser(bot: IgBot) {
     }
 }
 
-export async function displayBotMenu(bot: IgBot): Promise<void> {
+async function unfollowUsersWhoDontFollowBack(
+    bot: IgBot,
+    loggingEnabled: boolean,
+) {}
+
+export async function displayBotMenu(
+    bot: IgBot,
+    logger: { getLogger(): any; allowLogging: boolean },
+): Promise<void> {
     const botMenuInput: botMenuListChoices =
         await CommandLineUI.getUserInputFromList(botMenuListOptions);
 
     switch (botMenuInput) {
-        case botMenuListChoices.FOLLOW_USER:
-            await followUser(bot);
+        case botMenuListChoices.FOLLOW_USER: // Done
+            await followUser(bot, logger.allowLogging);
             break;
         case botMenuListChoices.FOLLOW_USERS_FROM_FILE:
             break;
-        case botMenuListChoices.UNFOLLOW_USER:
-            await unfollowUser(bot);
+        case botMenuListChoices.UNFOLLOW_USER: // Done
+            await unfollowUser(bot, logger.allowLogging);
             break;
         case botMenuListChoices.UNFOLLOW_USERS_FROM_FILE:
             break;
-        case botMenuListChoices.UNFOLLOW_USERS_WHO_DONT_FOLLOW_BACK:
+        case botMenuListChoices.UNFOLLOW_USERS_WHO_DONT_FOLLOW_BACK: // Done
+            await unfollowUsersWhoDontFollowBack(bot, logger.allowLogging);
             break;
         case botMenuListChoices.GET_FOLLOWING_LIST:
             break;

@@ -94,6 +94,11 @@ export default async function (
     // Run a loop to create an interface between the bot and the user
     let askWhetherTheLoginWasSuccessful: boolean = true;
 
+    // Ask whether the user wants to get the logging status of the bot
+    logger.allowLogging = await CommandLineUI.confirm(
+        "Do you want to get the logging status of the bot?",
+    );
+
     try {
         while (botIsRunning) {
             // Ask the user if the login was successful if the bot is not running headless
@@ -118,7 +123,7 @@ export default async function (
 
             try {
                 // Display the bot menu
-                await displayBotMenu(bot);
+                await displayBotMenu(bot, logger);
 
                 // Ask if the user want to continue using the app
                 botIsRunning = await CommandLineUI.confirm(

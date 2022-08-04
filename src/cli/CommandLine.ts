@@ -193,6 +193,17 @@ class CommandLineUI extends CommandLine {
 
         return choices.find((choice) => choice.name === optionSelected).out;
     }
+
+    public static async displayLoggingStartMessage() {
+        this.info(`========================`, "\n", "", false);
+        this.info(`LOGGING STARTED        `);
+        this.info(`========================`, "", "\n", false);
+    }
+    public static async displayLoggingEndMessage() {
+        this.info(`========================`, "\n", "", false);
+        this.info(`LOGGING ENDED          |`);
+        this.info(`========================`, "", "\n", false);
+    }
 }
 
 export { UserInputAsListOptions, CommandLineUI };
