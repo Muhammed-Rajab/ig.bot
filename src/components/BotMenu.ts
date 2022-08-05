@@ -4,6 +4,7 @@ import chalk from "chalk";
 import { fileURLToPath } from "url";
 import { IgBot } from "../core/IgBot.js";
 import { CommandLineUI, UserInputAsListOptions } from "../cli/CommandLine.js";
+import { timeStamp } from "console";
 
 // Loading Environment Variables
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -151,7 +152,12 @@ async function getUserWhoDontFollowBack(
     );
 
     // Gets the list of users who don't follow back
-    const usersWhoDontFollowBackList = await bot.getUsersWhoDoNotFollowBack();
+    const {
+        followers_count: followersCount,
+        following_count: followingCount,
+        users_who_dont_follow_back_count: usersWhoDontFollowBackCount,
+        data: usersWhoDontFollowBackList,
+    } = await bot.getUsersWhoDoNotFollowBack();
 
     // Ask the user whether they want to print the list of users who don't follow back
     CommandLineUI.log("");
@@ -164,6 +170,32 @@ async function getUserWhoDontFollowBack(
             `Here's the list of users who don't follow you back ⤵️`,
             "\n",
             "\n",
+        );
+        CommandLineUI.success(
+            `# of followers: ${followersCount}`,
+            "\n",
+            "",
+            false,
+        );
+        CommandLineUI.success(
+            `# of followings: ${followingCount}`,
+            "\n",
+            "",
+            false,
+        );
+        CommandLineUI.success(
+            `# of users who don't follow you back: ${usersWhoDontFollowBackCount}`,
+            "\n",
+            "",
+            false,
+        );
+        CommandLineUI.success(
+            `${chalk.red("followers:following")} ratio -> ${
+                followersCount / (followingCount > 0 ? followingCount : 1)
+            }`,
+            "\n",
+            "\n",
+            false,
         );
         CommandLineUI.error(
             usersWhoDontFollowBackList.join("  "),
@@ -188,12 +220,16 @@ async function getUserWhoDontFollowBack(
         );
 
         // Storing the list of users who don't follow you back
+        const TIMESTAMP = Date.now();
+        const FILE_NAME = `${__dirname}/../../.bot_data/users_who_dont_follow_back_${TIMESTAMP}.json`;
         await fs.promises.writeFile(
-            `${__dirname}/../../.bot_data/users_who_dont_follow_back.json`,
+            FILE_NAME,
             JSON.stringify({
                 timestamp: Date.now(),
-                count: usersWhoDontFollowBackList.length,
-                data: usersWhoDontFollowBackList,
+                followers_count: followersCount,
+                following_count: followingCount,
+                users_who_dont_follow_back_count: usersWhoDontFollowBackCount,
+                users_who_dont_follow_back_list: usersWhoDontFollowBackList,
             }),
         );
 

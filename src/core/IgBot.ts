@@ -48,6 +48,13 @@ interface UserDetails {
     is_verified: boolean;
 }
 
+interface usersWhoDontWantToFollowBack {
+    followers_count: number;
+    following_count: number;
+    users_who_dont_follow_back_count: number;
+    data: string[];
+}
+
 class IgBot {
     private _browser: any;
     private _instauto: any;
@@ -106,7 +113,7 @@ class IgBot {
         });
     }
 
-    public async getUsersWhoDoNotFollowBack(): Promise<string[]> {
+    public async getUsersWhoDoNotFollowBack(): Promise<usersWhoDontWantToFollowBack> {
         this.throwErrorIfDidNotInitialize();
 
         const { id: userId } = await this._instauto.navigateToUserAndGetData(
@@ -131,7 +138,14 @@ class IgBot {
             userFollowersSet,
         );
 
-        return [...res];
+        const resAsArray: string[] = Array.from(res);
+
+        return {
+            followers_count: userFollowersSet.size,
+            following_count: userFollowingSet.size,
+            users_who_dont_follow_back_count: resAsArray.length,
+            data: resAsArray,
+        };
     }
 
     public async getUserData(): Promise<UserDetails> {
