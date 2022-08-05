@@ -122,6 +122,7 @@ export default async function (
         while (botIsRunning) {
             // Ask the user if the login was successful if the bot is not running headless
             if (!PuppeteerConfig.headless && askWhetherTheLoginWasSuccessful) {
+                CommandLineUI.log("");
                 if (
                     !(await CommandLineUI.confirm(
                         `Was the login successful?📃`,

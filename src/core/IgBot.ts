@@ -208,4 +208,4 @@ class IgBot {
     }
 }
 
-export { IgBot };
+export { IgBot, usersWhoDontWantToFollowBack };

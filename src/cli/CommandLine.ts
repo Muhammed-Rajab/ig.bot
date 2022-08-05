@@ -193,15 +193,35 @@ class CommandLineUI extends CommandLine {
         return choices.find((choice) => choice.name === optionSelected).out;
     }
 
-    public static async displayLoggingStartMessage() {
-        this.info(`========================`, "\n", "", false);
-        this.info(`LOGGING STARTED        `);
-        this.info(`========================`, "", "\n", false);
+    public static async displayLoggingStartMessage(message?: string) {
+        this.info(
+            `${new String("=").repeat(message ? message.length + 10 : 24)}`,
+            "\n",
+            "",
+            false,
+        );
+        this.info(`${message || "LOGGING STARTED"}        `);
+        this.info(
+            `${new String("=").repeat(message ? message.length + 10 : 24)}`,
+            "",
+            "\n",
+            false,
+        );
     }
-    public static async displayLoggingEndMessage() {
-        this.info(`========================`, "\n", "", false);
-        this.info(`LOGGING ENDED          |`);
-        this.info(`========================`, "", "\n", false);
+    public static async displayLoggingEndMessage(message?: string) {
+        this.info(
+            `${new String("=").repeat(message ? message.length + 10 : 24)}`,
+            "\n",
+            "",
+            false,
+        );
+        this.info(`${message || "LOGGING ENDED"}        `);
+        this.info(
+            `${new String("=").repeat(message ? message.length + 10 : 24)}`,
+            "",
+            "\n",
+            false,
+        );
     }
 }
 
