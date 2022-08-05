@@ -1,7 +1,12 @@
+import fs from "fs";
+import path from "path";
 import chalk from "chalk";
+import { fileURLToPath } from "url";
 import { IgBot } from "../core/IgBot.js";
 import { CommandLineUI, UserInputAsListOptions } from "../cli/CommandLine.js";
-import { sign } from "crypto";
+
+// Loading Environment Variables
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Bot menu configuration
 enum botMenuListChoices {
@@ -48,10 +53,10 @@ const botMenuListOptions: UserInputAsListOptions = {
             name: "Get the list of followers",
             out: botMenuListChoices.GET_FOLLOWERS_LIST,
         },
-        // {
-        //     name: "Get the list of users who don't follow back",
-        //     out: botMenuListChoices.GET_LIST_OF_USERS_WHO_DONT_FOLLOW_BACK,
-        // },
+        {
+            name: "Get the list of users who don't follow back",
+            out: botMenuListChoices.GET_LIST_OF_USERS_WHO_DONT_FOLLOW_BACK,
+        },
     ],
 };
 
@@ -120,22 +125,21 @@ async function unfollowUser(bot: IgBot, loggingEnabled: boolean) {
     }
 }
 
-async function unfollowUsersWhoDontFollowBack(
+async function getUserWhoDontFollowBack(
     bot: IgBot,
     loggingEnabled: boolean,
-) {
+): Promise<string[] | undefined | void> {
     // Ask whether the user want to unfollow users who don't follow back as it potentially takes a long time and can get the user banned
     CommandLineUI.warn(
-        ` This action can take a long time and can get the user banned. \nIf your ${chalk.red(
+        ` This action can take a long time and can get the your account banned. \nIf your ${chalk.red(
             "followers:following",
         )} ratio is high, you shouldn't use this action.`,
         "\n",
         "\n",
     );
-    const consent = await CommandLineUI.confirm("Do you want to continue?");
-    if (!consent) {
-        CommandLineUI.info("Aborting action.");
-        return;
+
+    if (!(await CommandLineUI.confirm("Do you want to continue?"))) {
+        return CommandLineUI.info("Aborting action.");
     }
 
     // Display bot status and unfollow the users who don't follow back
@@ -169,13 +173,50 @@ async function unfollowUsersWhoDontFollowBack(
         );
     }
 
+    // Ask whether the user wants to store the list of users who don't follow back as json
+    CommandLineUI.log("");
+    if (
+        await CommandLineUI.confirm(
+            "Do you want to store the list of users who don't follow you back?",
+        )
+    ) {
+        // Storing message
+        CommandLineUI.info(
+            `Storing the list of users who don't follow you back as json`,
+            "\n",
+            "\n",
+        );
+
+        // Storing the list of users who don't follow you back
+        await fs.promises.writeFile(
+            `${__dirname}/../../.bot_data/users_who_dont_follow_back.json`,
+            JSON.stringify({
+                timestamp: Date.now(),
+                count: usersWhoDontFollowBackList.length,
+                data: usersWhoDontFollowBackList,
+            }),
+        );
+
+        // Storing was successful message
+        CommandLineUI.success(
+            `Successfully stored the list of users who don't follow you back as json.\nCheckout ${__dirname}/../../.bot_data/users_who_dont_follow_back.json`,
+            "\n",
+            "\n",
+        );
+    }
+
     CommandLineUI.success(
-        `Successfully unfollowed users who don't follow back`,
+        `Successfully fetched the list of users who don't follow back`,
         "\n",
         "\n",
     );
     if (loggingEnabled) CommandLineUI.displayLoggingEndMessage();
 }
+
+async function unfollowUsersWhoDontFollowBack(
+    bot: IgBot,
+    loggingEnabled: boolean,
+) {}
 
 export async function displayBotMenu(
     bot: IgBot,
@@ -203,6 +244,7 @@ export async function displayBotMenu(
         case botMenuListChoices.GET_FOLLOWERS_LIST:
             break;
         case botMenuListChoices.GET_LIST_OF_USERS_WHO_DONT_FOLLOW_BACK:
+            await getUserWhoDontFollowBack(bot, logger.allowLogging);
             break;
     }
 }
