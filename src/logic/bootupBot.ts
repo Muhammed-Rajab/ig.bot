@@ -8,6 +8,7 @@ import { CommandLineUI } from "../cli/CommandLine.js";
 import InstautoConfig from "../config/InstautoConfig.js";
 import PuppeteerConfig from "../config/PuppeteerConfig.js";
 import { displayBotMenu } from "../components/BotMenu.js";
+import { sleep } from "../utils.js";
 
 // Configuring the logger
 const logger = {
@@ -142,8 +143,14 @@ export default async function (
             }
 
             try {
-                // Display the bot menu
-                await displayBotMenu(bot, logger);
+                // Display the bot menu and if it returns false, then exit the bot
+                if ((await displayBotMenu(bot, logger)) === false) {
+                    botIsRunning = false;
+                    await bot.close();
+                    CommandLineUI.error("Exiting the ig.bot🚀", "\n", "\n");
+                    await sleep(1000);
+                    break;
+                }
 
                 // Ask if the user want to continue using the app
                 botIsRunning = await CommandLineUI.confirm(
