@@ -1,7 +1,8 @@
-import fs from "fs";
 import chalk from "chalk";
 import { IgBot } from "../core/IgBot.js";
 import { CommandLineUI } from "../cli/CommandLine.js";
+import displayUserData from "./displayUserData.js";
+import storeUserDataAsJson from "./storeUserDataAsJson.js";
 
 export default async function unfollowUsersWhoDontFollowBack(
     bot: IgBot,
@@ -18,7 +19,7 @@ export default async function unfollowUsersWhoDontFollowBack(
     );
 
     if (!(await CommandLineUI.confirm("Do you want to continue?"))) {
-        return CommandLineUI.info("Aborting action.");
+        return CommandLineUI.info("Aborting action.❌");
     }
 
     // Display bot status and unfollow the users who don't follow back
@@ -39,85 +40,69 @@ export default async function unfollowUsersWhoDontFollowBack(
 
     // Ask the user whether they want to print the list of users who don't follow back
     CommandLineUI.log("");
-    if (
-        await CommandLineUI.confirm(
-            "Do you want to display the list of users who don't follow you back?",
-        )
-    ) {
-        CommandLineUI.info(
-            `Here's the list of users who don't follow you back ⤵️`,
-            "\n",
-            "\n",
-        );
-        CommandLineUI.success(
-            `# of followers: ${followersCount}`,
-            "\n",
-            "",
-            false,
-        );
-        CommandLineUI.success(
-            `# of followings: ${followingCount}`,
-            "\n",
-            "",
-            false,
-        );
-        CommandLineUI.success(
-            `# of users who don't follow you back: ${usersWhoDontFollowBackCount}`,
-            "\n",
-            "",
-            false,
-        );
-        CommandLineUI.success(
-            `${chalk.red("followers:following")} ratio -> ${
-                followersCount / (followingCount > 0 ? followingCount : 1)
-            }`,
-            "\n",
-            "\n",
-            false,
-        );
-        CommandLineUI.error(
-            usersWhoDontFollowBackList.join("  "),
-            "",
-            "\n",
-            false,
-        );
-    }
+    await displayUserData(
+        "Do you want to display the list of users who don't follow you back?",
+        [
+            () =>
+                CommandLineUI.info(
+                    `Here's the list of users who don't follow you back ⤵️`,
+                    "\n",
+                    "\n",
+                ),
+            () =>
+                CommandLineUI.success(
+                    `# of followers: ${followersCount}`,
+                    "\n",
+                    "",
+                    false,
+                ),
+            () =>
+                CommandLineUI.success(
+                    `# of followings: ${followingCount}`,
+                    "\n",
+                    "",
+                    false,
+                ),
+            () =>
+                CommandLineUI.success(
+                    `# of users who don't follow you back: ${usersWhoDontFollowBackCount}`,
+                    "\n",
+                    "",
+                    false,
+                ),
+            () =>
+                CommandLineUI.success(
+                    `${chalk.red("followers:following")} ratio -> ${
+                        followersCount /
+                        (followingCount > 0 ? followingCount : 1)
+                    }`,
+                    "\n",
+                    "\n",
+                    false,
+                ),
+            () =>
+                CommandLineUI.error(
+                    usersWhoDontFollowBackList.join("  "),
+                    "",
+                    "\n",
+                    false,
+                ),
+        ],
+    );
 
     // Ask whether the user wants to store the list of users who don't follow back as json
     CommandLineUI.log("");
-    if (
-        await CommandLineUI.confirm(
-            "Do you want to store the list of users who don't follow you back?",
-        )
-    ) {
-        // Storing message
-        CommandLineUI.info(
-            `Storing the list of users who don't follow you back as json`,
-            "\n",
-            "\n",
-        );
-
-        // Storing the list of users who don't follow you back
-        const TIMESTAMP = Date.now();
-        const FILE_NAME = `${BOT_DATA_BASE_PATH}/users_who_dont_follow_back_${TIMESTAMP}.json`;
-        await fs.promises.writeFile(
-            FILE_NAME,
-            JSON.stringify({
-                timestamp: Date.now(),
-                followers_count: followersCount,
-                following_count: followingCount,
-                users_who_dont_follow_back_count: usersWhoDontFollowBackCount,
-                users_who_dont_follow_back_list: usersWhoDontFollowBackList,
-            }),
-        );
-
-        // Storing was successful message
-        CommandLineUI.success(
-            `Successfully stored the list of users who don't follow you back as json.\nCheckout ${FILE_NAME}`,
-            "\n",
-            "\n",
-        );
-    }
+    await storeUserDataAsJson(
+        "list of users who don't follow you back",
+        {
+            followers_count: followersCount,
+            following_count: followingCount,
+            users_who_dont_follow_back_count: usersWhoDontFollowBackCount,
+            users_who_dont_follow_back_list: usersWhoDontFollowBackList,
+        },
+        BOT_DATA_BASE_PATH,
+        "users_who_dont_follow_back_list",
+    );
 
     // Ask whether the user wants to unfollow safely or not
     CommandLineUI.warn(
