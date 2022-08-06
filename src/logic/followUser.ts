@@ -5,13 +5,9 @@ export default async function followUser(bot: IgBot, loggingEnabled: boolean) {
     try {
         CommandLineUI.log("");
 
-        let userToFollow: string;
-
-        do {
-            userToFollow = (
-                await CommandLineUI.textInput("Enter the username to follow: ")
-            ).trim();
-        } while (userToFollow === undefined || userToFollow === "");
+        let userToFollow: string = await CommandLineUI.textInputLooped(
+            "Enter the username to follow: ",
+        );
 
         // Display bot status and follow the user
         if (loggingEnabled) CommandLineUI.displayLoggingStartMessage();

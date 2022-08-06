@@ -45,6 +45,19 @@ class CommandLine {
         )[name];
     }
 
+    public static async textInputLooped(
+        message: string,
+        options: object = {},
+    ): Promise<string> {
+        /* Takes text input from user until a valid input is provided */
+
+        let input: string;
+        do {
+            input = await CommandLine.textInput(message, options);
+        } while (input === undefined || input === "");
+        return input;
+    }
+
     public static async passwordInput(
         message: string,
         options: object = {},

@@ -8,15 +8,9 @@ export default async function unfollowUser(
     try {
         CommandLineUI.log("");
 
-        let userToUnFollow: string;
-
-        do {
-            userToUnFollow = (
-                await CommandLineUI.textInput(
-                    "Enter the username to unfollow: ",
-                )
-            ).trim();
-        } while (userToUnFollow === undefined || userToUnFollow === "");
+        let userToUnFollow: string = await CommandLineUI.textInputLooped(
+            "Enter the username to follow: ",
+        );
 
         // Display bot status and unfollow the user
         if (loggingEnabled) CommandLineUI.displayLoggingStartMessage();
