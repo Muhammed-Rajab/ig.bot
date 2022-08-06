@@ -13,15 +13,15 @@ export default async function getFollowersList(
         // Display bot status and follow the user
         if (loggingEnabled) CommandLineUI.displayLoggingStartMessage();
         CommandLineUI.info(
-            `Attempting to get user's following list`,
+            `Attempting to get user's followers list`,
             "\n",
             "\n",
         );
 
-        const followingList = await bot.getFollowingList();
+        const followersList = await bot.getFollowersList();
 
         CommandLineUI.success(
-            `Successfully fetched users's following list`,
+            `Successfully fetched users's followers list`,
             "\n",
             "\n",
         );
@@ -30,55 +30,55 @@ export default async function getFollowersList(
         CommandLineUI.log("");
         if (
             await CommandLineUI.confirm(
-                "Do you want to display the list of users who you are following?",
+                "Do you want to display the list of users who follows you?",
             )
         ) {
             CommandLineUI.info(
-                `Here's the list of users that you are following ⤵️`,
+                `Here's the list of users that are following you ⤵️`,
                 "\n",
                 "\n",
             );
 
             CommandLineUI.success(
-                `# of followings: ${followingList.length}`,
+                `# of followers: ${followersList.length}`,
                 "\n",
                 "",
                 false,
             );
 
-            CommandLineUI.error(followingList.join("  "), "", "\n", false);
+            CommandLineUI.error(followersList.join("  "), "", "\n", false);
         }
 
-        // Ask the user whether to save the list of following
-        // Ask whether the user wants to store the list of users who don't follow back as json
+        // Ask the user whether to save the list of followers
+        // Ask whether the user wants to store the list of followers as json
         CommandLineUI.log("");
         if (
             await CommandLineUI.confirm(
-                "Do you want to store the list of users who you are following?",
+                "Do you want to store the list of users who are following you?",
             )
         ) {
             // Storing message
             CommandLineUI.info(
-                `Storing the list of users who don't follow you back as json`,
+                `Storing the list of users who who are following you as json`,
                 "\n",
                 "\n",
             );
 
             // Storing the list of users who don't follow you back
             const TIMESTAMP = Date.now();
-            const FILE_NAME = `${BOT_DATA_BASE_PATH}/following_list_${TIMESTAMP}.json`;
+            const FILE_NAME = `${BOT_DATA_BASE_PATH}/followers_list_${TIMESTAMP}.json`;
             await fs.promises.writeFile(
                 FILE_NAME,
                 JSON.stringify({
                     timestamp: Date.now(),
-                    following_count: followingList.length,
-                    following_list: followingList,
+                    following_count: followersList.length,
+                    following_list: followersList,
                 }),
             );
 
             // Storing was successful message
             CommandLineUI.success(
-                `Successfully stored the list of users who you are following as json.\nCheckout ${FILE_NAME}`,
+                `Successfully stored the list of users who who are following you as json.\nCheckout ${FILE_NAME}`,
                 "\n",
                 "\n",
             );
@@ -86,7 +86,7 @@ export default async function getFollowersList(
         if (loggingEnabled) CommandLineUI.displayLoggingEndMessage();
     } catch (err) {
         throw new Error(
-            `Something Went Wrong While Trying To Get User's Following List.\n${err.message}`,
+            `Something Went Wrong While Trying To Get User's Followers List.\n${err.message}`,
         );
     }
 }

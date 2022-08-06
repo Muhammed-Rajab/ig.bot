@@ -50,7 +50,7 @@ export default async function getFollowingList(
         }
 
         // Ask the user whether to save the list of following
-        // Ask whether the user wants to store the list of users who don't follow back as json
+        // Ask whether the user wants to store the list of users who are following as json
         CommandLineUI.log("");
         if (
             await CommandLineUI.confirm(
