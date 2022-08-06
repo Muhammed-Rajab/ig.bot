@@ -3,7 +3,9 @@
     "version": "1.0.0",
     "scripts": {
         "start:tsc": "tsc -w",
-        "start:nodemon": "nodemon ./build/app.js"
+        "start:nodemon": "nodemon ./build/app.js",
+        "build": "tsc",
+        "start": "node ./build/app.js"
     },
     "type": "module",
     "author": "",
