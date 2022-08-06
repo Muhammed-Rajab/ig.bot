@@ -6,6 +6,8 @@ import { CommandLineUI, UserInputAsListOptions } from "../cli/CommandLine.js";
 // Bot menu options
 import followUser from "../logic/followUser.js";
 import unfollowUser from "../logic/unfollowUser.js";
+import getFollowersList from "../logic/getFollowersList.js";
+import getFollowingList from "../logic/getFollowingList.js";
 import getUserWhoDontFollowBack from "../logic/getUsersWhoDontFollowBack.js";
 import unfollowUsersWhoDontFollowBack from "../logic/unfollowUsersWhoDontFollowBack.js";
 
@@ -18,11 +20,9 @@ const BOT_DATA_BASE_PATH = `${__dirname}/../../.bot_data`;
 // Enum to store bot menu choices to further check it
 enum botMenuListChoices {
     UNFOLLOW_USER,
-    UNFOLLOW_USERS_FROM_FILE,
     UNFOLLOW_USERS_WHO_DONT_FOLLOW_BACK,
 
     FOLLOW_USER,
-    FOLLOW_USERS_FROM_FILE,
 
     GET_FOLLOWING_LIST,
     GET_FOLLOWERS_LIST,
@@ -76,12 +76,8 @@ export async function displayBotMenu(
         case botMenuListChoices.FOLLOW_USER: // Done
             await followUser(bot, logger.allowLogging);
             break;
-        case botMenuListChoices.FOLLOW_USERS_FROM_FILE:
-            break;
         case botMenuListChoices.UNFOLLOW_USER: // Done
             await unfollowUser(bot, logger.allowLogging);
-            break;
-        case botMenuListChoices.UNFOLLOW_USERS_FROM_FILE:
             break;
         case botMenuListChoices.UNFOLLOW_USERS_WHO_DONT_FOLLOW_BACK: // Done
             await unfollowUsersWhoDontFollowBack(
@@ -90,18 +86,28 @@ export async function displayBotMenu(
                 BOT_DATA_BASE_PATH,
             );
             break;
-        case botMenuListChoices.GET_FOLLOWING_LIST:
+        case botMenuListChoices.GET_FOLLOWING_LIST: // Done
+            await getFollowingList(
+                bot,
+                logger.allowLogging,
+                BOT_DATA_BASE_PATH,
+            );
             break;
         case botMenuListChoices.GET_FOLLOWERS_LIST:
+            await getFollowersList(
+                bot,
+                logger.allowLogging,
+                BOT_DATA_BASE_PATH,
+            );
             break;
-        case botMenuListChoices.GET_LIST_OF_USERS_WHO_DONT_FOLLOW_BACK:
+        case botMenuListChoices.GET_LIST_OF_USERS_WHO_DONT_FOLLOW_BACK: // Done
             await getUserWhoDontFollowBack(
                 bot,
                 logger.allowLogging,
                 BOT_DATA_BASE_PATH,
             );
             break;
-        case botMenuListChoices.EXIT_BOT_MENU:
+        case botMenuListChoices.EXIT_BOT_MENU: // Done
             return false;
     }
 }
