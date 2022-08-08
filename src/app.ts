@@ -1,5 +1,3 @@
-import fs from "node:fs";
-import chalk from "chalk";
 import path from "path";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
