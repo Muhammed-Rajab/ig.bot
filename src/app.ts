@@ -1,17 +1,62 @@
+import fs from "node:fs";
+import chalk from "chalk";
 import path from "path";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 import { CommandLineUI } from "./cli/CommandLine.js";
 import { displayEndScreen } from "./components/EndScreen.js";
 import { displayMainMenuList } from "./components/MainMenu.js";
+import checkIfEnvFileIsPresent from "./logic/checkIfEnvFileIsPresent.js";
+
+// __dirname
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ENV_FILE_PATH = `${__dirname}/../config.env`;
+
+// Check if env files is present
+if (checkIfEnvFileIsPresent()) {
+    CommandLineUI.success("Found config.env file");
+} else {
+    CommandLineUI.error("Could not find config.env file");
+    if (
+        await CommandLineUI.confirm("Do you want to create a config.env file?")
+    ) {
+        // * Ask for username and password
+        const username = await CommandLineUI.textInputLooped(
+            "Enter your Instagram Username: ",
+        );
+        const password = await CommandLineUI.passwordInputLooped(
+            "Enter your Instagram Password: ",
+        );
+        const ENV_FILE_CONTENT = `INSTAGRAM_USERNAME="${username}"\nINSTAGRAM_PASSWORD="${password}"`;
+
+        CommandLineUI.info("Creating config.env file");
+        fs.writeFileSync(ENV_FILE_PATH, ENV_FILE_CONTENT);
+        dotenv.config({ path: ENV_FILE_PATH });
+        CommandLineUI.success("Successfully config.env file");
+    } else {
+        CommandLineUI.error(
+            `Exiting application now as no config.env file was found. Goto ${chalk.underline(
+                "https://github.com/Muhammed-Rajab/ig.bot",
+            )} to know more.`,
+        );
+        process.exit(1);
+    }
+}
 
 // Loading Environment Variables
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: `${__dirname}/../config.env` });
+dotenv.config({ path: ENV_FILE_PATH });
 
 // User credentials from Environment Variables
 const USERNAME: string | undefined = process.env.INSTAGRAM_USERNAME;
 const PASSWORD: string | undefined = process.env.INSTAGRAM_PASSWORD;
+
+// Check if username and password is present in environment variables
+if (!(USERNAME && PASSWORD)) {
+    CommandLineUI.error(
+        "Username and Password is not present in environment variables. Please check the config.env file.",
+    );
+    process.exit(1);
+}
 
 async function main(): Promise<void> {
     // Clears the command line before running the application

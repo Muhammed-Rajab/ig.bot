@@ -75,6 +75,19 @@ class CommandLine {
         )[name];
     }
 
+    public static async passwordInputLooped(
+        message: string,
+        options: object = {},
+    ): Promise<string> {
+        /* Takes text input from user until a valid input is provided */
+
+        let input: string;
+        do {
+            input = await CommandLine.passwordInput(message, options);
+        } while (input === undefined || input === "");
+        return input;
+    }
+
     // Colorful logging
     public static log(
         message: string,
