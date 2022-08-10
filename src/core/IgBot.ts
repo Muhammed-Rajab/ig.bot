@@ -55,6 +55,13 @@ interface usersWhoDontWantToFollowBack {
     data: string[];
 }
 
+interface InstautoJsonDBConfig {
+    followedDbPath: string;
+    unfollowedDbPath: string;
+    likedPhotosDbPath: string;
+    logger: object;
+}
+
 class IgBot {
     private _browser: any;
     private _instauto: any;
@@ -64,18 +71,14 @@ class IgBot {
     public constructor(
         private _puppeteerConfig: PuppeteerConfig,
         private _instautoConfig: InstautoConfig,
+        private _instautoJsonDBConfig: InstautoJsonDBConfig,
     ) {}
 
     public async initialize() {
         /* Method to initialize the browser instance */
         this._browser = await puppeteer.launch(this._puppeteerConfig);
 
-        const instautoDb = await Instauto.JSONDB({
-            followedDbPath: "./followed.json",
-            unfollowedDbPath: "./unfollowed.json",
-            likedPhotosDbPath: "./liked-photos.json",
-            logger: this._instautoConfig.logger || console,
-        });
+        const instautoDb = await Instauto.JSONDB(this._instautoJsonDBConfig);
 
         this._instauto = await Instauto(
             instautoDb,

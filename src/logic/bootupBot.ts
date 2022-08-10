@@ -9,45 +9,12 @@ import InstautoConfig from "../config/InstautoConfig.js";
 import PuppeteerConfig from "../config/PuppeteerConfig.js";
 import { displayBotMenu } from "../components/BotMenu.js";
 import { sleep } from "../utils.js";
+import logger from "../core/logger.js";
+import { fileURLToPath } from "url";
+import path from "path";
 
-// Configuring the logger
-const logger = {
-    allowLogging: true,
-    getLogger() {
-        return {
-            log: (...args: any[]) =>
-                this.allowLogging &&
-                CommandLineUI.success(
-                    `${new Date().toISOString()} ${args.join(" ")}`,
-                ),
-            info: (...args: any[]) =>
-                this.allowLogging &&
-                CommandLineUI.info(
-                    `${new Date().toISOString()} ${args.join(" ")}`,
-                ),
-            error: (...args: any[]) =>
-                this.allowLogging &&
-                CommandLineUI.error(
-                    `${new Date().toISOString()} ${args.join(" ")}`,
-                ),
-            trace: (...args: any[]) =>
-                this.allowLogging &&
-                CommandLineUI.log(
-                    `${new Date().toISOString()} ${args.join(" ")}`,
-                ),
-            warn: (...args: any[]) =>
-                this.allowLogging &&
-                CommandLineUI.warn(
-                    `${new Date().toISOString()}  ${args.join(" ")}`,
-                ),
-            debug: (...args: any[]) =>
-                this.allowLogging &&
-                CommandLineUI.error(
-                    `${new Date().toISOString()} ${args.join(" ")}`,
-                ),
-        };
-    },
-};
+// Loading Environment Variables
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default async function (
     USERNAME: string,
@@ -87,12 +54,21 @@ export default async function (
     let botIsRunning: boolean = true;
 
     // Bot instance
-    const bot = new IgBot(PuppeteerConfig, {
-        ...InstautoConfig,
-        logger: logger.getLogger(),
-        username: USERNAME,
-        password: PASSWORD,
-    });
+    const bot = new IgBot(
+        PuppeteerConfig,
+        {
+            ...InstautoConfig,
+            logger: logger.getLogger(),
+            username: USERNAME,
+            password: PASSWORD,
+        },
+        {
+            followedDbPath: `${__dirname}/../../bot_data/followed.json`,
+            unfollowedDbPath: `${__dirname}/../../bot_data/unfollowed.json`,
+            likedPhotosDbPath: `${__dirname}/../../bot_data/likedPhotos.json`,
+            logger: logger.getLogger(),
+        },
+    );
 
     // Setting the logger to false, so that the user can't see the logs
     logger.allowLogging = false;

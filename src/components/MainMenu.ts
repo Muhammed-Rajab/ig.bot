@@ -61,7 +61,7 @@ async function displayMainMenuList(): Promise<boolean> {
             await setupUserCredentials();
             break;
         case mainMenuListChoices.VALIDATE_USER_CREDENTIALS:
-            await validateUserCredentials();
+            await validateUserCredentials(USERNAME, PASSWORD);
             break;
         case mainMenuListChoices.BOOTUP_BOT:
             await bootupBot(USERNAME, PASSWORD);
