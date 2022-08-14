@@ -11,7 +11,6 @@ const PASSWORD: string | undefined = process.env.INSTAGRAM_PASSWORD;
 
 // Main menu configuration
 enum mainMenuListChoices {
-    SETUP_USER_CREDENTIALS,
     BOOTUP_BOT,
     ABOUT_DEV,
     CLOSE_THE_APPLICATION,
@@ -22,10 +21,6 @@ enum mainMenuListChoices {
 const mainMenuListOptions: UserInputAsListOptions = {
     title: "Main Menu",
     choices: [
-        {
-            name: "Setup Credentials 🗝️",
-            out: mainMenuListChoices.SETUP_USER_CREDENTIALS,
-        },
         {
             name: "Validate User Credentials ✅",
             out: mainMenuListChoices.VALIDATE_USER_CREDENTIALS,
@@ -56,9 +51,6 @@ async function displayMainMenuList(): Promise<boolean> {
 
     // Calling other methods with respect to user input
     switch (mainMenuInput) {
-        case mainMenuListChoices.SETUP_USER_CREDENTIALS:
-            await setupUserCredentials();
-            break;
         case mainMenuListChoices.VALIDATE_USER_CREDENTIALS:
             await validateUserCredentials(USERNAME, PASSWORD);
             break;
