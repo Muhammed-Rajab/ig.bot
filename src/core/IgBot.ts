@@ -80,11 +80,9 @@ class IgBot {
 
         const instautoDb = await Instauto.JSONDB(this._instautoJsonDBConfig);
 
-        this._instauto = await Instauto(
-            instautoDb,
-            this._browser,
-            this._instautoConfig,
-        );
+        this._instauto = await Instauto(instautoDb, this._browser, {
+            ...this._instautoConfig,
+        });
         this._initCalled = true;
     }
 

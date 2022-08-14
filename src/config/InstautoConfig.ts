@@ -1,6 +1,4 @@
 export default {
-    cookiesPath: "./cookies.json",
-
     username: undefined, // Provide your username here
     password: undefined, // Provide your password here
 

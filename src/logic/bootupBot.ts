@@ -61,6 +61,7 @@ export default async function (
             logger: logger.getLogger(),
             username: USERNAME,
             password: PASSWORD,
+            cookiesPath: `${__dirname}/../../bot_data/cookies.json`,
         },
         {
             followedDbPath: `${__dirname}/../../bot_data/followed.json`,

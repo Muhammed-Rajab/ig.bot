@@ -15,16 +15,18 @@ export default async function (
     PASSWORD: string,
 ): Promise<void> {
     /* Function to manually check if the username and password are correct*/
+    let bot: IgBot;
     try {
         // Remove preexisting cookies file
         // Login to account and ask whether the credentials are correct
-        const bot = new IgBot(
+        bot = new IgBot(
             PuppeteerConfig,
             {
                 ...InstautoConfig,
                 logger: logger.getLogger(),
                 username: USERNAME,
                 password: PASSWORD,
+                cookiesPath: `${__dirname}/../../bot_data/cookies.json`,
             },
             {
                 followedDbPath: `${__dirname}/../../bot_data/followed.json`,
@@ -50,5 +52,7 @@ export default async function (
     } catch (e) {
         CommandLineUI.error(`Validated Instagram credentials failed🗝️`);
         CommandLineUI.error(`${e}`);
+    } finally {
+        await bot.close();
     }
 }
