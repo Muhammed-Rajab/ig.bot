@@ -1,9 +1,8 @@
 import bootupBot from "../logic/bootupBot.js";
+import clearCookies from "../logic/clearCookies.js";
 import aboutDeveloper from "../logic/aboutDeveloper.js";
-import setupUserCredentials from "../logic/setupUserCredentials.js";
 import validateUserCredentials from "../logic/validateUserCredentials.js";
 import { CommandLineUI, UserInputAsListOptions } from "../cli/CommandLine.js";
-import clearCookies from "../logic/clearCookies.js";
 
 // User credentials from Environment Variables
 const USERNAME: string | undefined = process.env.INSTAGRAM_USERNAME;
