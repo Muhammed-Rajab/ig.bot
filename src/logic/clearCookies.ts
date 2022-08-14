@@ -1,10 +1,6 @@
 import fs from "node:fs";
-import path from "path";
-import { fileURLToPath } from "url";
+import settings from "../config/Settings.js";
 import { CommandLineUI } from "../cli/CommandLine.js";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const COOKIE_PATH = path.join(__dirname, "../../bot_data/cookies.json");
 
 export default async function clearCookies() {
     if (
@@ -13,9 +9,9 @@ export default async function clearCookies() {
         )
     ) {
         CommandLineUI.info("Looking for cookies in bot_data folder 🔍");
-        if (fs.existsSync(COOKIE_PATH)) {
+        if (fs.existsSync(settings.COOKIES_PATH)) {
             CommandLineUI.info("Cookies found, deleting...❌");
-            fs.unlinkSync(COOKIE_PATH);
+            fs.unlinkSync(settings.COOKIES_PATH);
             CommandLineUI.success("Cookies deleted successfully ✅");
         } else {
             CommandLineUI.error("Cookies not found, nothing to delete ❌");

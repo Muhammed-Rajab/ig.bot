@@ -6,6 +6,8 @@ import { displayEndScreen } from "./components/EndScreen.js";
 import { displayMainMenuList } from "./components/MainMenu.js";
 import checkIfEnvFileIsPresent from "./logic/checkIfEnvFileIsPresent.js";
 
+import settings from "./config/Settings.js";
+
 // __dirname
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ENV_FILE_PATH = `${__dirname}/../config.env`;
