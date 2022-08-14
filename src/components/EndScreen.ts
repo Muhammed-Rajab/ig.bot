@@ -4,8 +4,6 @@ export async function displayEndScreen() {
     // Clears the command line
     CommandLineUI.clear();
 
-    CommandLineUI.displayBanner();
-
     // Prints the message
     CommandLineUI.success(
         "Thank you for using ig.bot💖",
@@ -14,7 +12,7 @@ export async function displayEndScreen() {
         false,
     );
     CommandLineUI.success(
-        "Make sure to this project a ⭐ at https://github.com/Muhammed-Rajab/ig.bot",
+        "Make sure to this project ⭐ at https://github.com/Muhammed-Rajab/ig.bot",
         undefined,
         undefined,
         false,
