@@ -4,6 +4,19 @@ _A node.js based Instagram💖 bot🤖 made to make life of a content creator�
 
 ![BANNER](./images/banner.gif)
 
+## Features
+
+> I'm planning to add more features in the future. But I'm not sure how much time I'll have to spend on it.
+
+-   Follow users✅
+-   Unfollow users✅
+-   Get your account's followers✅
+-   Get your account's following✅
+-   Get users who don't follow you back✅
+-   Unfollow users who don't follow you back✅
+-   Like posts based on hashtags❌
+-   Follow users based on the hashtags on their post❌
+
 ## Installation
 
 Install my-project with npm
