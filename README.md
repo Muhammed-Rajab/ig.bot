@@ -23,8 +23,8 @@ Install my-project with npm
 
 Make sure you have the following softwares installed:
 
--   git
--   nodejs v16.15.0
+-   [git](https://git-scm.com/downloads)
+-   [nodejs v16.15.0](https://nodejs.org/dist/v16.15.0/)
 
 ```bash
   git clone https://github.com/Muhammed-Rajab/ig.bot.git
