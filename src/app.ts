@@ -1,22 +1,9 @@
-import path from "path";
-import dotenv from "dotenv";
-import { fileURLToPath } from "url";
+// Putting everything related to dotenv at the top of the file
+// So that it can be used in the other files
+import settings from "./config/Settings.js";
 import { CommandLineUI } from "./cli/CommandLine.js";
 import { displayEndScreen } from "./components/EndScreen.js";
 import { displayMainMenuList } from "./components/MainMenu.js";
-import checkIfEnvFileIsPresent from "./logic/checkIfEnvFileIsPresent.js";
-
-import settings from "./config/Settings.js";
-
-// __dirname
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ENV_FILE_PATH = `${__dirname}/../config.env`;
-
-// Check if env files is present
-await checkIfEnvFileIsPresent(ENV_FILE_PATH);
-
-// Loading Environment Variables
-dotenv.config({ path: ENV_FILE_PATH });
 
 // User credentials from Environment Variables
 const USERNAME: string | undefined = process.env.INSTAGRAM_USERNAME;

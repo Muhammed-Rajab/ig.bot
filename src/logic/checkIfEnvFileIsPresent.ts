@@ -1,12 +1,6 @@
-import chalk from "chalk";
 import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import chalk from "chalk";
 import { CommandLineUI } from "../cli/CommandLine.js";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-console.log(__dirname);
 
 export default async function checkIfEnvFileIsPresent(ENV_FILE_PATH: string) {
     if (fs.existsSync(ENV_FILE_PATH)) {

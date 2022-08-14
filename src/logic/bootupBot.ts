@@ -1,20 +1,17 @@
 // Importing modules and libraries
 import chalk from "chalk";
+import logger from "../core/logger.js";
 import { IgBot } from "../core/IgBot.js";
 import { createSpinner } from "nanospinner";
 import { CommandLineUI } from "../cli/CommandLine.js";
+import { displayBotMenu } from "../components/BotMenu.js";
 
 // Importin configurations
 import InstautoConfig from "../config/InstautoConfig.js";
 import PuppeteerConfig from "../config/PuppeteerConfig.js";
-import { displayBotMenu } from "../components/BotMenu.js";
+import settings from "../config/Settings.js";
 import { sleep } from "../utils.js";
-import logger from "../core/logger.js";
-import { fileURLToPath } from "url";
 import path from "path";
-
-// Loading Environment Variables
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default async function (
     USERNAME: string,
@@ -61,12 +58,21 @@ export default async function (
             logger: logger.getLogger(),
             username: USERNAME,
             password: PASSWORD,
-            cookiesPath: `${__dirname}/../../bot_data/cookies.json`,
+            cookiesPath: settings.COOKIES_PATH,
         },
         {
-            followedDbPath: `${__dirname}/../../bot_data/followed.json`,
-            unfollowedDbPath: `${__dirname}/../../bot_data/unfollowed.json`,
-            likedPhotosDbPath: `${__dirname}/../../bot_data/likedPhotos.json`,
+            followedDbPath: path.join(
+                settings.BASE_PATH,
+                `/bot_data/followed.json`,
+            ),
+            unfollowedDbPath: path.join(
+                settings.BASE_PATH,
+                `/bot_data/unfollowed.json`,
+            ),
+            likedPhotosDbPath: path.join(
+                settings.BASE_PATH,
+                `/bot_data/likedPhotos.json`,
+            ),
             logger: logger.getLogger(),
         },
     );

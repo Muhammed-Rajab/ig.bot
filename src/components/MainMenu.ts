@@ -1,16 +1,9 @@
-import path from "path";
-import dotenv from "dotenv";
-import { fileURLToPath } from "url";
 import bootupBot from "../logic/bootupBot.js";
 import aboutDeveloper from "../logic/aboutDeveloper.js";
 import setupUserCredentials from "../logic/setupUserCredentials.js";
 import validateUserCredentials from "../logic/validateUserCredentials.js";
 import { CommandLineUI, UserInputAsListOptions } from "../cli/CommandLine.js";
 import clearCookies from "../logic/clearCookies.js";
-
-// Loading Environment Variables
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: `${__dirname}/../../config.env` });
 
 // User credentials from Environment Variables
 const USERNAME: string | undefined = process.env.INSTAGRAM_USERNAME;
