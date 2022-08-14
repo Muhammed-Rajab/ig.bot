@@ -6,6 +6,7 @@ import aboutDeveloper from "../logic/aboutDeveloper.js";
 import setupUserCredentials from "../logic/setupUserCredentials.js";
 import validateUserCredentials from "../logic/validateUserCredentials.js";
 import { CommandLineUI, UserInputAsListOptions } from "../cli/CommandLine.js";
+import clearCookies from "../logic/clearCookies.js";
 
 // Loading Environment Variables
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -22,6 +23,7 @@ enum mainMenuListChoices {
     ABOUT_DEV,
     CLOSE_THE_APPLICATION,
     VALIDATE_USER_CREDENTIALS,
+    CLEAR_COOKIES,
 }
 
 const mainMenuListOptions: UserInputAsListOptions = {
@@ -34,6 +36,10 @@ const mainMenuListOptions: UserInputAsListOptions = {
         {
             name: "Validate User Credentials ✅",
             out: mainMenuListChoices.VALIDATE_USER_CREDENTIALS,
+        },
+        {
+            name: "Clear The Cookies 🍪",
+            out: mainMenuListChoices.CLEAR_COOKIES,
         },
         {
             name: "Boot Up ig.bot🚀",
@@ -65,6 +71,9 @@ async function displayMainMenuList(): Promise<boolean> {
             break;
         case mainMenuListChoices.BOOTUP_BOT:
             await bootupBot(USERNAME, PASSWORD);
+            break;
+        case mainMenuListChoices.CLEAR_COOKIES:
+            await clearCookies();
             break;
         case mainMenuListChoices.ABOUT_DEV:
             await aboutDeveloper();
