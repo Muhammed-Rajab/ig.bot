@@ -2,7 +2,7 @@
 
 _A node.js based Instagram💖 bot🤖 made to make life of a content creator🗒️ easy🍀_
 
-![BANNER](./images/banner.png)
+![BANNER](./images/banner.gif)
 
 ## Installation
 
