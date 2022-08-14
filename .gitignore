@@ -6,3 +6,7 @@ followed.json
 liked-photos.json
 unfollowed.json
 bot-data/
+followers_list*
+following_list*
+likedPhotos*
+users_who_dont_follow_back_list_*
