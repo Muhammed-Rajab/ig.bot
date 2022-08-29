@@ -30,6 +30,7 @@ Make sure you have the following softwares installed:
   git clone https://github.com/Muhammed-Rajab/ig.bot.git
   cd ig.bot/
   npm install
+  npm run build
   touch config.env
 ```
 
